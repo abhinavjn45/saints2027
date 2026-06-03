@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
         $(function () {
-            $('#defaultCountdown').countdown({until: new Date(2025, 12-1, 10, 8)}); // year, month, date, hour
+            // Month is 0-based in JavaScript Date: 0 = January
+            $('#defaultCountdown').countdown({until: new Date(2027, 0, 6, 0)}); // year, month (Jan=0), date, hour
         });
 });		
 
