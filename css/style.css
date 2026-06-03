@@ -4167,6 +4167,56 @@ ul.cols-2{
   color:var(--primary-color);
 }
 
+.ul-check.date-list li:before {
+  content: "\f073";
+}
+
+.important-dates-section {
+  position: relative;
+  padding: 110px 0 100px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(255, 193, 7, 0.16), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(13, 202, 240, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(7, 12, 22, 0.96), rgba(6, 8, 14, 1));
+}
+
+.important-dates-carousel .item {
+  padding: 0 12px;
+}
+
+.important-dates-section .owl-carousel {
+  padding: 0 18px;
+}
+
+.important-dates-section .owl-stage-outer {
+  overflow: visible;
+  padding: 12px 0 30px;
+}
+
+.important-dates-carousel .owl-stage {
+  display: flex;
+}
+
+.important-dates-carousel .owl-item {
+  display: flex;
+}
+
+.important-dates-carousel .owl-item .item {
+  width: 100%;
+}
+
+.reach-panel,
+.reach-panel * {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.reach-panel .p-40 {
+  min-width: 0;
+}
+
 .ul-check.white li:before{
   color: #ffffff;
 }
