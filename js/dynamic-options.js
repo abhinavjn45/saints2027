@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    window.dynamicDataPromises = window.dynamicDataPromises || [];
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTm9eNhOCD0-2xb0fPZyekQyVVYEsmWRQTvX1zqay2uQrqWBGfrmQhUXGRqeIxJwzcsUiaD3YMeX1NS/pub?gid=0&single=true&output=csv';
 
-    fetch(csvUrl)
+    const p = fetch(csvUrl)
         .then(response => response.text())
         .then(csvText => {
             const rows = parseCSV(csvText);
@@ -18,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
             applyOptions(options);
         })
         .catch(error => console.error('Error fetching site options:', error));
+
+    window.dynamicDataPromises.push(p);
 
     function parseCSV(text) {
         const rows = [];
@@ -80,6 +83,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (options['favicon_manifest']) {
             const el = document.getElementById('favicon-manifest');
             if (el) el.href = options['favicon_manifest'];
+        }
+
+        // 1.5 Logos
+        if (options['logo']) {
+            const headerLogos = document.querySelectorAll('.logo-main, .logo-scroll, .logo-mobile');
+            headerLogos.forEach(img => img.src = options['logo']);
+            
+            const footerLogo = document.getElementById('footer-logo');
+            if (footerLogo) footerLogo.src = options['logo'];
         }
 
         // 2. SEO Details

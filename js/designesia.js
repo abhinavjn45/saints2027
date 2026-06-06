@@ -331,6 +331,9 @@
             margin:25,
             nav:false,
             dots:true,
+            autoplay:true,
+            autoplayTimeout:5000,
+            autoplayHoverPause:true,
             responsive:{
                 1000:{
                     items:2
@@ -1589,22 +1592,53 @@
                  $('.bg-loop').css('background-position', x + 'px 0');
              }, 50);
          })
-		 
+         if (jQuery('style#no-tick-style').length === 0) {
+             jQuery('head').append('<style id="no-tick-style">.ul-check li.no-tick:before { display: none !important; }</style>');
+         }
+         // Read more for lists with more than 4 items
+         jQuery('#section-tickets .ul-check').each(function() {
+             var $list = jQuery(this);
+             var $items = $list.children('li');
+             if ($items.length > 4) {
+                 $items.slice(3).hide();
+                 var $readMore = jQuery('<li class="read-more-item no-tick mt-2"><a href="javascript:void(0);" class="text-light text-decoration-underline">Read more...</a></li>');
+                 $list.append($readMore);
+                 $readMore.on('click', function(e) {
+                     e.preventDefault();
+                     var $btn = jQuery(this).find('a');
+                     if ($btn.text() === 'Read more...') {
+                         $items.slice(3).slideDown();
+                         $btn.text('Collapse...');
+                     } else {
+                         $items.slice(3).slideUp();
+                         $btn.text('Read more...');
+                     }
+                 });
+             }
+         });
 		
      });
 
     $(window).on('load', function() {
-        jQuery('#de-loader').fadeOut(500);
-        filter_gallery();
-        load_owl();  
-        window.dispatchEvent(new Event('resize'));        
-         filter_gallery();
-         masonry();
+        function finalizeLoad() {
+            jQuery('#de-loader').fadeOut(500);
+            filter_gallery();
+            load_owl();  
+            window.dispatchEvent(new Event('resize'));        
+            filter_gallery();
+            masonry();
 
-        $('.grid').isotope({
-            itemSelector: '.grid-item'
-        });
-        grid_gallery();
+            $('.grid').isotope({
+                itemSelector: '.grid-item'
+            });
+            grid_gallery();
+        }
+
+        if (window.dynamicDataPromises && window.dynamicDataPromises.length > 0) {
+            Promise.allSettled(window.dynamicDataPromises).then(finalizeLoad);
+        } else {
+            finalizeLoad();
+        }
     });
     
  })(jQuery);
