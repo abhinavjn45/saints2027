@@ -563,6 +563,28 @@
 			}
          });
 
+		 jQuery(".owl-6-rtl").owlCarousel({
+            center: false,
+			items:6,
+			loop:true,
+			dots: false,
+			margin:40,
+			autoplay:true,
+			autoplayTimeout:2000,
+			rtl: true,
+			responsive:{
+				1000:{
+					items:6
+				},
+				600:{
+					items:4
+				},
+				0:{
+					items:3
+				}
+			}
+         });
+
 		 jQuery("#owl-features").owlCarousel({
             center: true,
 			items:4,
