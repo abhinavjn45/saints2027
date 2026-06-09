@@ -103,57 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (footerLogo) footerLogo.src = options['logo'];
         }
 
-        // 2. SEO Details
-        function updateOrCreateMeta(attrName, attrValue, content) {
-            if (!content) return;
-            let el = document.querySelector(`meta[${attrName}="${attrValue}"]`);
-            if (!el) {
-                el = document.createElement('meta');
-                el.setAttribute(attrName, attrValue);
-                document.head.appendChild(el);
-            }
-            el.setAttribute('content', content);
-        }
 
-        function updateOrCreateLink(rel, href) {
-            if (!href) return;
-            let el = document.querySelector(`link[rel="${rel}"]`);
-            if (!el) {
-                el = document.createElement('link');
-                el.setAttribute('rel', rel);
-                document.head.appendChild(el);
-            }
-            el.setAttribute('href', href);
-        }
-
-        if (options['seo_title']) {
-            let title = options['seo_title'];
-            title = title.replace('{site_fullname}', options['site_fullname'] || '');
-            title = title.replace('{site_tagline}', options['site_tagline'] || '');
-            document.title = title;
-        }
-        
-        updateOrCreateMeta('name', 'description', options['seo_description']);
-        updateOrCreateMeta('name', 'keywords', options['seo_keywords']);
-        updateOrCreateMeta('name', 'author', options['seo_author']);
-        updateOrCreateMeta('name', 'robots', options['seo_robots']);
-        updateOrCreateLink('canonical', options['canonical_url']);
-
-        // Open Graph
-        updateOrCreateMeta('property', 'og:title', options['og_title']);
-        updateOrCreateMeta('property', 'og:description', options['og_description']);
-        updateOrCreateMeta('property', 'og:image', options['og_image']);
-        updateOrCreateMeta('property', 'og:type', options['og_type']);
-        updateOrCreateMeta('property', 'og:site_name', options['og_site_name']);
-        updateOrCreateMeta('property', 'og:locale', options['og_locale']);
-
-        // Twitter
-        updateOrCreateMeta('name', 'twitter:card', options['twitter_card']);
-        updateOrCreateMeta('name', 'twitter:title', options['twitter_title']);
-        updateOrCreateMeta('name', 'twitter:description', options['twitter_description']);
-        updateOrCreateMeta('name', 'twitter:image', options['twitter_image']);
-        updateOrCreateMeta('name', 'twitter:site', options['twitter_site']);
-        updateOrCreateMeta('name', 'twitter:creator', options['twitter_creator']);
 
         // 3. Footer Left & Right Text
         // Footer text contains variables {year} and {site_fullname}
