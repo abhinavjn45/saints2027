@@ -1632,10 +1632,23 @@
                 itemSelector: '.grid-item'
             });
             grid_gallery();
+
+            // Force layout sync after dynamic images have rendered
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                masonry();
+                $('.grid').isotope('layout');
+            }, 1000);
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+            }, 2500);
         }
 
         if (window.dynamicDataPromises && window.dynamicDataPromises.length > 0) {
-            Promise.allSettled(window.dynamicDataPromises).then(finalizeLoad);
+            Promise.race([
+                Promise.allSettled(window.dynamicDataPromises),
+                new Promise(function(resolve) { setTimeout(resolve, 3000); })
+            ]).then(finalizeLoad);
         } else {
             finalizeLoad();
         }

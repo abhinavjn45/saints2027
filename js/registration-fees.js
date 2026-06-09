@@ -16,20 +16,32 @@ document.addEventListener('DOMContentLoaded', function() {
             // Assuming first row is header
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
-                if (row.length >= 4) {
+                if (row.length >= 5) {
                     const id = row[0];
                     const category = row[1];
-                    const price = row[2];
-                    const status = row[3] ? row[3].trim().toLowerCase() : '';
+                    const earlyBird = row[2];
+                    const regular = row[3];
+                    const status = row[4] ? row[4].trim().toLowerCase() : '';
 
                     if (status === 'active') {
+                        const formatPrice = (p) => {
+                            if (!p) return '-';
+                            const str = p.toString().trim();
+                            return str.toLowerCase().startsWith('usd') ? str : `₹${str}`;
+                        };
+
                         html += `
-                           <div class="d-flex align-items-center border-bottom py-3">
-                             <div class="flex-grow-1">
-                               <h5 class="mb-0">${category}</h5>
-                             </div>
-                             <div class="text-end">
-                               <h5 class="fw-bold text-light mb-0">₹${price}</h5>
+                           <div class="d-flex flex-column border-bottom py-3">
+                             <h5 class="mb-2">${category}</h5>
+                             <div class="d-flex justify-content-between">
+                               <div>
+                                 <span class="op-5 fs-14">Early Bird</span>
+                                 <h6 class="fw-bold text-light mb-0">${formatPrice(earlyBird)}</h6>
+                               </div>
+                               <div class="text-end">
+                                 <span class="op-5 fs-14">Regular</span>
+                                 <h6 class="fw-bold text-light mb-0">${formatPrice(regular)}</h6>
+                               </div>
                              </div>
                            </div>
                         `;

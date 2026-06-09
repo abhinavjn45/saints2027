@@ -18,7 +18,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             applyOptions(options);
         })
-        .catch(error => console.error('Error fetching site options:', error));
+        .catch(error => {
+            console.error('Error fetching site options:', error);
+            // Fallback to hardcoded logos if fetch fails
+            const defaultLogo = "https://res.cloudinary.com/dchqvsa57/image/upload/v1780714581/saints_new_logo_lruoy4.png";
+            const headerLogos = document.querySelectorAll('.logo-main, .logo-scroll, .logo-mobile');
+            headerLogos.forEach(img => img.src = defaultLogo);
+            
+            const footerLogo = document.getElementById('footer-logo');
+            if (footerLogo) footerLogo.src = defaultLogo;
+        });
 
     window.dynamicDataPromises.push(p);
 
