@@ -8114,9 +8114,31 @@ footer .tiny-border span {
 
 
 @media only screen and (max-width: 767px) {
-  .d-tab-nav,
-  .d-tab-nav li{
-    display: block !important;
+  .d-tab-nav {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    justify-content: flex-start !important;
+    gap: 40px;
+    padding-right: 20px; /* Provides a small buffer at the very end of the scroll */
+  }
+  .d-tab-nav::-webkit-scrollbar {
+    height: 4px;
+  }
+  .d-tab-nav::-webkit-scrollbar-track {
+    background: rgba(128, 128, 128, 0.1);
+    border-radius: 4px;
+  }
+  .d-tab-nav::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.4);
+    border-radius: 4px;
+  }
+  .d-tab-nav li {
+    display: inline-block !important;
+    flex: 0 0 auto;
   }
 }
 
