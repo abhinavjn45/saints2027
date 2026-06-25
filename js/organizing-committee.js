@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     window.dynamicDataPromises = window.dynamicDataPromises || [];
     
     const container = document.getElementById('organizing-committee-container');
-    if (!container) return;
+    const advisorsContainer = document.getElementById('advisors-container');
+    if (!container && !advisorsContainer) return;
 
     const sheetId = '1T8OY51wObS-MhN7tSpAHnSGPJ143aYBVnnUFK51E2jU';
     const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=organizing_committee`;
@@ -12,14 +13,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(csvText => {
             const lines = csvText.split('\n').filter(line => line.trim().length > 0);
             if (lines.length <= 1) {
-                container.innerHTML = '<div class="col-12 text-center text-white">No committee members found.</div>';
+                if (container) container.innerHTML = '<div class="col-12 text-center text-white">No committee members found.</div>';
+                if (advisorsContainer) advisorsContainer.innerHTML = '<div class="col-12 text-center text-white">No advisors found.</div>';
                 return;
             }
 
             // Remove header
             lines.shift();
             
-            let html = '';
+            let htmlCommittee = '';
+            let htmlAdvisors = '';
 
             lines.forEach((line) => {
                 // Parse CSV properly handling quotes
@@ -60,8 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const designation = row[3];
                 const role = row[4];
 
+                let itemHtml = '';
+
                 if (image && image !== 'null' && image !== '') {
-                    html += `
+                    itemHtml = `
                         <div class="col-lg-3">
                             <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask h-100">
                                 <img src="${image}" class="w-100 hover-scale-1-1" style="aspect-ratio: 3/4; object-fit: cover;" alt="${name}">
@@ -78,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     `;
                 } else {
-                    html += `
+                    itemHtml = `
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="relative overflow-hidden h-100 border-white-op-3 rounded-1" style="background-color: rgba(255,255,255,0.05);">
                                 <div class="p-40 relative z-2 h-100 d-flex flex-column justify-content-center">
@@ -92,13 +97,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     `;
                 }
+
+                if (role && role.trim().toLowerCase() === 'advisor') {
+                    htmlAdvisors += itemHtml;
+                } else {
+                    htmlCommittee += itemHtml;
+                }
             });
 
-            container.innerHTML = html;
+            if (container) container.innerHTML = htmlCommittee || '<div class="col-12 text-center text-white">No committee members found.</div>';
+            if (advisorsContainer) advisorsContainer.innerHTML = htmlAdvisors || '<div class="col-12 text-center text-white">No advisors found.</div>';
         })
         .catch(error => {
             console.error('Error loading organizing committee:', error);
-            container.innerHTML = '<div class="col-12 text-center text-white">Failed to load committee members.</div>';
+            if (container) container.innerHTML = '<div class="col-12 text-center text-danger">Failed to load committee members.</div>';
+            if (advisorsContainer) advisorsContainer.innerHTML = '<div class="col-12 text-center text-danger">Failed to load advisors.</div>';
         });
 
     window.dynamicDataPromises.push(fetchPromise);

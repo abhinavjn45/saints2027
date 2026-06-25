@@ -99,9 +99,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (options['logo']) {
             const headerLogos = document.querySelectorAll('.logo-main, .logo-scroll, .logo-mobile');
             headerLogos.forEach(img => img.src = options['logo']);
-            
-            const footerLogo = document.getElementById('footer-logo');
-            if (footerLogo) footerLogo.src = options['logo'];
+        }
+
+        const footerLogo = document.getElementById('footer-logo');
+        if (footerLogo) {
+            if (options['footer_logo']) {
+                footerLogo.src = options['footer_logo'];
+            } else if (options['logo']) {
+                footerLogo.src = options['logo'];
+            }
         }
 
 
