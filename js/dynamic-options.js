@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     window.dynamicDataPromises = window.dynamicDataPromises || [];
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTm9eNhOCD0-2xb0fPZyekQyVVYEsmWRQTvX1zqay2uQrqWBGfrmQhUXGRqeIxJwzcsUiaD3YMeX1NS/pub?gid=0&single=true&output=csv';
+    const sheetId = '1T8OY51wObS-MhN7tSpAHnSGPJ143aYBVnnUFK51E2jU';
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=options`;
 
     const p = fetch(csvUrl)
         .then(response => response.text())
