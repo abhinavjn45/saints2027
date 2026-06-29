@@ -8,7 +8,9 @@ jQuery(function () {
   const sheetId = '1T8OY51wObS-MhN7tSpAHnSGPJ143aYBVnnUFK51E2jU';
   const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=important_dates`;
 
-  fetch(csvUrl)
+  window.dynamicDataPromises = window.dynamicDataPromises || [];
+
+  const p = fetch(csvUrl)
     .then(response => response.text())
     .then(csvText => {
       const lines = csvText.split('\n').filter(line => line.trim().length > 0);
@@ -106,6 +108,8 @@ jQuery(function () {
       console.error('Error loading important dates:', error);
       initCarousel();
     });
+
+  window.dynamicDataPromises.push(p);
 
   function initCarousel() {
     timeline.owlCarousel({

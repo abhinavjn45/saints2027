@@ -1667,10 +1667,21 @@
         }
 
         if (window.dynamicDataPromises && window.dynamicDataPromises.length > 0) {
+            // First, trigger finalizeLoad to hide preloader after 3 seconds maximum (or sooner if possible)
             Promise.race([
                 Promise.allSettled(window.dynamicDataPromises),
                 new Promise(function(resolve) { setTimeout(resolve, 3000); })
             ]).then(finalizeLoad);
+
+            // Second, guarantee that whenever ALL dynamic data actually finishes loading, we refresh the layout
+            Promise.allSettled(window.dynamicDataPromises).then(function() {
+                setTimeout(function() {
+                    window.dispatchEvent(new Event('resize'));
+                    if (typeof masonry === 'function') masonry();
+                    if (jQuery('.grid').length && typeof jQuery('.grid').isotope === 'function') jQuery('.grid').isotope('layout');
+                    if (typeof WOW !== 'undefined') new WOW().init();
+                }, 500);
+            });
         } else {
             finalizeLoad();
         }
