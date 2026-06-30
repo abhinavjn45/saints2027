@@ -12860,6 +12860,10 @@ img {
   header .logo-mobile {
     display: block;
   }
+  
+  div#logo img {
+    max-width: 160px; /* decreased from 220px for mobile/tablet */
+  }
 
   header .btn-main{
     display: none;

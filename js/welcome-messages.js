@@ -45,9 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         const isEven = (activeIndex % 2 === 0);
                         const msgId = `welcome-msg-${activeIndex}`;
+                        const imageOrderClass = !isEven ? 'order-md-2' : '';
+                        const textOrderClass = !isEven ? 'order-md-1' : '';
                         
                         const imageCol = `
-                            <div class="col-md-4">
+                            <div class="col-md-4 ${imageOrderClass}">
                                 <div class="relative w-100 d-inline-block pe-5 mb-4">
                                     <div class="abs bg-color w-80px h-80px rounded-1 text-center end-0 z-2 wow scaleIn">
                                         <i class="icofont-quote-left text-white fs-40 d-block pt-3"></i>
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         `;
 
                         const textCol = `
-                            <div class="col-md-8">
+                            <div class="col-md-8 ${textOrderClass}">
                                 <h3 class="fs-20 mb-4 wow fadeInUp">
                                     “${visibleHtml}”
                                 </h3>
@@ -78,11 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         // We'll just add a margin to separate them.
                         const marginClass = activeIndex > 0 ? "mt-5 pt-4" : "";
 
-                        if (isEven) {
-                            html += `<div class="row align-items-start g-5 ${marginClass}">${imageCol}${textCol}</div>`;
-                        } else {
-                            html += `<div class="row align-items-start g-5 ${marginClass}">${textCol}${imageCol}</div>`;
-                        }
+                        // Always show image first, then text
+                        html += `<div class="row align-items-start g-5 ${marginClass}">${imageCol}${textCol}</div>`;
 
                         activeIndex++;
                     }
