@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="col-md-12">
                             <div class="relative overflow-hidden h-100 border-white-op-3 rounded-1 bg-blur">
                                 <div class="gradient-edge-bottom color op-5"></div>
-                                <div class="p-40 pb-50 z-2">
+                                <div class="p-40 pb-50 z-2 relative">
                                     <div class="text-center">
                                         <h3 class="fs-40 mb-3 id-color">Step ${i}</h3>
                                         <h4 class="mb-0 fw-normal text-light">${title}</h4>
