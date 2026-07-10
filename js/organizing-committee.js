@@ -67,17 +67,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (image && image !== 'null' && image !== '') {
                     itemHtml = `
-                        <div class="col-lg-3">
-                            <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask h-100">
-                                <img src="${image}" class="w-100 hover-scale-1-1" style="aspect-ratio: 3/4; object-fit: cover;" alt="${name}">
-                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
-                                <div class="abs w-100 start-0 bottom-0 z-3">
-                                    <div class="bg-blur p-4 m-3 rounded-1 text-light text-center relative z-2">
-                                        <h3 class="mb-1 text-light fs-20 text-wrap">${name}</h3>
-                                        ${role ? `<span class="id-color fw-bold d-block mb-1 fs-14 text-wrap">${role}</span>` : ''}
-                                        <span class="d-block lh-sm fs-14 text-wrap">${designation}</span>
-                                    </div>
-                                    <div class="gradient-edge-bottom h-100 op-8"></div>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="relative overflow-hidden h-100 rounded-1 d-flex flex-column" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                                <div class="relative overflow-hidden">
+                                    <img src="${image}" class="w-100" style="aspect-ratio: 1/1; object-fit: cover; border-bottom: 1px solid rgba(255,255,255,0.1);" alt="${name}">
+                                </div>
+                                <div class="p-4 relative z-2 flex-grow-1 d-flex flex-column justify-content-center text-center">
+                                    <h3 class="fs-20 mb-2 text-wrap text-light">${name}</h3>
+                                    ${role ? `<span class="id-color fw-bold d-block mb-2 fs-14 text-wrap">${role}</span>` : ''}
+                                    <h4 class="fs-16 text-wrap text-light" style="opacity: 0.8;">${designation}</h4>
                                 </div>
                             </div>
                         </div>
@@ -85,13 +83,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     itemHtml = `
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="relative overflow-hidden h-100 border-white-op-3 rounded-1" style="background-color: rgba(255,255,255,0.05);">
-                                <div class="p-40 relative z-2 h-100 d-flex flex-column justify-content-center">
-                                    <div class="text-center">
-                                        <h2 class="fs-20 mb-2 text-wrap">${name}</h2>
-                                        ${role ? `<h3 class="id-color mb-3 fs-18 text-wrap">${role}</h3>` : ''}
-                                        <h4 class="fs-16 text-wrap">${designation}</h4>
-                                    </div>
+                            <div class="relative overflow-hidden h-100 rounded-1" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                                <div class="p-40 relative z-2 h-100 d-flex flex-column justify-content-center text-center">
+                                    <h3 class="fs-20 mb-2 text-wrap text-light">${name}</h3>
+                                    ${role ? `<span class="id-color fw-bold d-block mb-2 fs-14 text-wrap">${role}</span>` : ''}
+                                    <h4 class="fs-16 text-wrap text-light" style="opacity: 0.8;">${designation}</h4>
                                 </div>
                             </div>
                         </div>
