@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             let html = '';
             let speakersFound = false;
+            let speakersByCategory = {};
 
             lines.forEach((line) => {
                 // Parse CSV properly handling quotes
@@ -56,49 +57,78 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 row.push(currentItem.trim());
 
-                if (row.length < 6) return; // Need at least 6 columns
+                if (row.length < 7) return; // Need at least 7 columns now
 
                 const id = row[0];
                 const track = row[1];
-                const name = row[2];
-                const affiliation = row[3];
-                const image = row[4];
-                const status = row[5].toLowerCase();
+                const category = row[2].trim();
+                const name = row[3].trim();
+                const affiliation = row[4].trim();
+                const image = row[5].trim();
+                const status = row[6].toLowerCase().trim();
 
                 if (track === currentTrack && status === 'active') {
                     speakersFound = true;
-                    if (image && image !== 'null' && image !== '') {
-                        html += `
-                        <div class="col-lg-3">
-                            <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask h-100">
-                                <img src="${image}" class="w-100 hover-scale-1-1" style="aspect-ratio: 3/4; object-fit: cover;" alt="${name}">
-                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
-                                <div class="abs w-100 start-0 bottom-0 z-3">
-                                    <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
-                                        <a href="javascript:void(0);" class="text-light text-decoration-none d-block">
-                                            <h3 class="mb-0 text-light text-wrap fs-20">${name}</h3>
-                                            <span class="text-wrap d-block mt-2 fs-14">${affiliation}</span>
-                                        </a>
-                                    </div>
-                                    <div class="gradient-edge-bottom h-100 op-8"></div>
-                                </div>
-                            </div>
-                        </div>
-                        `;
-                    } else {
-                        html += `
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="relative overflow-hidden h-100 border-white-op-3 rounded-1" style="background-color: rgba(255,255,255,0.05);">
-                                <div class="p-40 relative z-2 h-100 d-flex flex-column justify-content-center">
-                                    <div class="text-center">
-                                        <h2 class="fs-20 mb-3 text-wrap">${name}</h2>
-                                        <h4 class="fs-16 text-wrap">${affiliation}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        `;
+                    
+                    // Standardize category name for display (e.g. "Plenary Speaker" -> "Plenary Speakers")
+                    let displayCategory = category;
+                    if (!displayCategory.toLowerCase().endsWith('s')) displayCategory += 's';
+
+                    if (!speakersByCategory[displayCategory]) {
+                        speakersByCategory[displayCategory] = [];
                     }
+                    speakersByCategory[displayCategory].push({name, affiliation, image});
+                }
+            });
+
+            const orderedCategories = ["Keynote Speakers", "Plenary Speakers", "Invited Speakers"];
+            
+            // Add any other categories that might appear in the CSV unexpectedly
+            Object.keys(speakersByCategory).forEach(cat => {
+                if (!orderedCategories.includes(cat)) {
+                    orderedCategories.push(cat);
+                }
+            });
+
+            orderedCategories.forEach(cat => {
+                if (speakersByCategory[cat] && speakersByCategory[cat].length > 0) {
+                    html += `<div class="col-12 mt-4 mb-2 text-center"><h2 class="wow fadeInUp">${cat}</h2></div>`;
+                    
+                    speakersByCategory[cat].forEach(speaker => {
+                        const {name, affiliation, image} = speaker;
+                        if (image && image !== 'null' && image !== '') {
+                            html += `
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask h-100">
+                                    <img src="${image}" class="w-100 hover-scale-1-1" style="aspect-ratio: 3/4; object-fit: cover;" alt="${name}">
+                                    <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                                    <div class="abs w-100 start-0 bottom-0 z-3">
+                                        <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
+                                            <a href="javascript:void(0);" class="text-light text-decoration-none d-block">
+                                                <h3 class="mb-0 text-light text-wrap fs-20">${name}</h3>
+                                                <span class="text-wrap d-block mt-2 fs-14">${affiliation}</span>
+                                            </a>
+                                        </div>
+                                        <div class="gradient-edge-bottom h-100 op-8"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        } else {
+                            html += `
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="relative overflow-hidden h-100 border-white-op-3 rounded-1" style="background-color: rgba(255,255,255,0.05);">
+                                    <div class="p-40 relative z-2 h-100 d-flex flex-column justify-content-center">
+                                        <div class="text-center">
+                                            <h2 class="fs-20 mb-3 text-wrap">${name}</h2>
+                                            <h4 class="fs-16 text-wrap">${affiliation}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        }
+                    });
                 }
             });
 
