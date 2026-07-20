@@ -870,6 +870,25 @@
     </footer>
     <!-- footer end -->
 
+    <!-- Abstract Submission Modal -->
+    <div class="modal fade" id="abstractModal" tabindex="-1" aria-labelledby="abstractModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light rounded-1 border-white-op-3" style="border: 1px solid rgba(255,255,255,0.1);">
+                <div class="modal-header border-white-bottom-op-2">
+                    <h4 class="modal-title id-color mb-0" id="abstractModalLabel">Abstract Submission is Open!</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <p class="fs-16 mb-0">We are now accepting abstracts for SAINTS 2027! Submit your research and join us for a transformative conference experience.</p>
+                </div>
+                <div class="modal-footer border-white-top-op-2 justify-content-center">
+                    <button type="button" class="btn btn-secondary rounded-1" data-bs-dismiss="modal">Close</button>
+                    <a href="./abstract-submission/" class="btn-main rounded-1">Submit Abstract</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Javascript Files
     ================================================== -->
     <script src="js/vendors.js"></script>
@@ -881,6 +900,16 @@
     <script src="js/dynamic-options.js"></script>
     <script src="js/welcome-messages.js"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                if (typeof bootstrap !== 'undefined') {
+                    var myModal = new bootstrap.Modal(document.getElementById('abstractModal'));
+                    myModal.show();
+                }
+            }, 1500);
+        });
+    </script>
 </body>
 </html>
 
